@@ -66,7 +66,7 @@ $("#searchBtn").on("click", function() {
 
     $('#currentCity').empty();
 
-    // get and set the content 
+    // Content for the weather city results. I believe the UV Index information goes here but I don't believe I found the right API call for it 
     const card = $("<div>").addClass("card");
     const cardBody = $("<div>").addClass("card-body");
     const city = $("<h4>").addClass("card-title").text(response.name);
@@ -83,5 +83,64 @@ $("#searchBtn").on("click", function() {
     $("#currentCity").append(card)
    
   }
+      //Not sure if this is the correct UV index. Im going to keep working to figure it out but this UV Index is for long and lat.
+    //http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid={API key}
 
+  //Created a function for the forecast
+function getCurrentForecast () {
   
+  $.ajax({
+    url: "https://api.openweathermap.org/data/2.5/forecast?q=" + city + apiKey
+    ,
+    method: "GET"
+  }).then(function (response){
+
+    console.log(response)
+    console.log(response.dt)
+    $('#forecast').empty();
+
+    // variable to hold response.list
+    var results = response.list;
+    console.log(results)
+    
+    //declare start date to check against
+    // startDate = 20
+    //have end date, endDate = startDate + 5
+
+    for (var i = 0; i < results.length; i++) {
+
+      var day = Number(results[i].dt_txt.split('-')[2].split(' ')[0]);
+      var hour = results[i].dt_txt.split('-')[2].split(' ')[1];
+      console.log(day);
+      console.log(hour);
+
+      if(results[i].dt_txt.indexOf("12:00:00") !== -1){
+        
+        // Var with formula needed to change the temperature to Farenheit
+        var temp = (results[i].main.temp - 273.15) * 1.80 + 32;
+        var tempF = Math.floor(temp);
+
+        const card = $("<div>").addClass("card col-md-2 ml-4 bg-primary text-white");
+        const cardBody = $("<div>").addClass("card-body p-3 forecastBody")
+        const cityDate = $("<h4>").addClass("card-title").text(date.toLocaleDateString('en-US'));
+        const temperature = $("<p>").addClass("card-text forecastTemp").text("Temperature: " + tempF + " °F");
+        const humidity = $("<p>").addClass("card-text forecastHumidity").text("Humidity: " + results[i].main.humidity + "%");
+
+        const image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + results[i].weather[0].icon + ".png")
+
+        cardBody.append(cityDate, image, temperature, humidity);
+        card.append(cardBody);
+        $("#forecast").append(card);
+
+        // For the 3rd straight week I'm having a hard time with Local Storage. When I run what I started it removes 4 of the 5 
+        //localStorage.results.city = "lastSearch";
+        // Retrieve
+        //localStorage.getItem("lastSearch");
+        console.log(localStorage)
+        
+
+      }
+    }
+  });
+
+}
