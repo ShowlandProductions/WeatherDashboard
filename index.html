@@ -14,8 +14,39 @@
 </head>
 <body>
 
-    
+    <!-- Container holding the Weather Dashboard text-->
+    <div class="bg-dark pt-5 pb-5"> 
+        <div class="container">
+            <h1 class="text-center text-white">Weather Dashboard</h1>
+        </div>
+    </div>
+    <!-- Created a container -->
+    <div class="container-fluid"> 
 
+        <!-- Created a row to start building the body -->
+        <div class="row"> 
+            <!-- Start column -->
+            <div class="col-lg-3 bg-light pt-3 pb-3"> 
+                <h5>Desired City:</h5>
+                <!-- Start input group -->
+                <div class="input-group mb-4"> 
+                    <input id="searchTerm" type="text" class="form-control" placeholder="City" class="input-group-append">
+                    <button id="searchBtn" class="btn btn-primary" type="button" id="button-addon2"><i class="far fa-search"></i></button>
+                </div>
+
+                <!-- Card settings within the container -->
+                <div class="card"> 
+                    <ul class="list-group list-group-flush list">
+                    </ul>
+                </div> 
+            </div> 
+            <!-- New column for the current city -->
+            <div class="col-lg-9"> 
+                <div id="currentCity" class="mt-4">
+                    
+                </div>
+            </div> 
+        </div> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="main.js"></script>
 </body>
